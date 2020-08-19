@@ -10,6 +10,9 @@ def myendpoint():
     conn = psycopg2.connect(DATABASE_URL, sslmode='require')
     incoming_msg = request.values.get('Body', '').lower()
     cur.execute("""INSERT INTO votes VALUES('%s')""",incoming_msg)
+    cur.close()
+    conn.commit()
+    conn.close()
 
 if __name__ == '__main__':
     app.run()
